@@ -1,0 +1,4 @@
+worker_pseudonym,shift_date,start_time,end_time,total_hours,orders_completed,total_distance_km,paid_distance_km,waiting_time_hours,base_payout,incentive_pay,bonus_pay,deductions,fuel_expense,maintenance_expense,other_expenses,cancellations_count,cancellation_penalties,platform_category,vehicle_type,city,data_origin,consent_confirmed
+WRK-SAMPLE01,2026-03-01,09:00,18:00,9.0,16,112.5,78.0,2.5,720.00,250.00,100.00,45.00,280.00,50.00,20.00,1,30.00,Food Delivery,Motorcycle,Bengaluru,PARTICIPANT_REPORTED,TRUE
+WRK-SAMPLE02,2026-03-01,11:00,21:00,10.0,19,135.0,92.5,3.2,850.00,300.00,0.00,20.00,340.00,60.00,0.00,2,50.00,Quick Commerce / Grocery,Electric 2W,Delhi-NCR,PARTICIPANT_REPORTED,TRUE
+WRK-SAMPLE03,2026-03-01,08:30,16:30,8.0,12,85.0,60.0,1.8,550.00,120.00,50.00,0.00,190.00,40.00,15.00,0,0.00,E-commerce Parcel,Scooter,Mumbai,PARTICIPANT_REPORTED,TRUE

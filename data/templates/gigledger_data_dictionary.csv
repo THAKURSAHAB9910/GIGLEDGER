@@ -1,0 +1,24 @@
+field_name,data_type,nullable,example_value,description,validation_rule
+worker_pseudonym,STRING,NO,WRK-A8F291,Pseudonymous alphanumeric identifier for worker privacy,Must match format WRK-[A-Z0-9]{6,16}
+shift_date,DATE,NO,2026-03-01,Calendar date of the work shift,YYYY-MM-DD format; within 2020 to current
+start_time,TIME,YES,09:00,Shift start time (local 24h clock),HH:MM format
+end_time,TIME,YES,18:00,Shift conclusion time (local 24h clock),HH:MM format
+total_hours,FLOAT,NO,9.0,Total elapsed shift working hours,Numeric > 0.1 and <= 24.0
+orders_completed,INTEGER,NO,15,Number of deliveries/trips completed,Integer >= 0
+total_distance_km,FLOAT,NO,110.5,Total odometer distance driven in shift (km),Numeric >= 0.0
+paid_distance_km,FLOAT,YES,78.2,Distance driven while carrying active orders (km),Numeric >= 0.0 and <= total_distance_km
+waiting_time_hours,FLOAT,YES,2.4,Unpaid or idle waiting time between orders (hours),Numeric >= 0.0 and <= total_hours
+base_payout,FLOAT,NO,700.00,Guaranteed base delivery fee / trip rate earnings,Numeric >= 0.0
+incentive_pay,FLOAT,YES,220.00,Target, peak, or surge pay earned in shift,Numeric >= 0.0
+bonus_pay,FLOAT,YES,100.00,Weekly target bonus or milestone completion pay,Numeric >= 0.0
+deductions,FLOAT,YES,30.00,Platform penalties, bag deposits, or processing fees,Numeric >= 0.0
+fuel_expense,FLOAT,YES,250.00,Total money spent on fuel / EV recharging in shift,Numeric >= 0.0
+maintenance_expense,FLOAT,YES,50.00,Prorated or actual vehicle maintenance/puncture cost,Numeric >= 0.0
+other_expenses,FLOAT,YES,20.00,Mobile data, parking, tolls, or hydration during shift,Numeric >= 0.0
+cancellations_count,INTEGER,YES,1,Orders cancelled by customer or restaurant after arrival,Integer >= 0
+cancellation_penalties,FLOAT,YES,25.00,Uncompensated costs or platform penalties for cancellation,Numeric >= 0.0
+platform_category,STRING,YES,Food Delivery,Sector: Food Delivery, Quick Commerce, Parcel, Ride-hailing,One of recognized categories
+vehicle_type,STRING,YES,Motorcycle,Mode of transit: Motorcycle, Scooter, EV 2W, Bicycle, Cab,One of recognized vehicle types
+city,STRING,YES,Bengaluru,Operating city or metropolitan area,Standardized text
+data_origin,STRING,NO,PARTICIPANT_REPORTED,Classification: PUBLIC_RESEARCH, PARTICIPANT_REPORTED, DEMO_SYNTHETIC,Must be one of valid origins
+consent_confirmed,BOOLEAN,NO,TRUE,Affirmation of voluntary consent & no passwords submitted,Must be TRUE
