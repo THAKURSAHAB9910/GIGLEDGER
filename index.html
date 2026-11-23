@@ -50,17 +50,24 @@
       </div>
       <div>
         <h1 class="text-lg font-bold tracking-tight text-white flex items-center gap-2">
-          GIGLEDGER <span class="text-xs px-2 py-0.5 rounded-full bg-blue-500/10 text-blue-400 border border-blue-500/20 font-medium">Live Intelligence v1.0</span>
+          GIGLEDGER <span class="text-xs px-2 py-0.5 rounded-full bg-blue-500/10 text-blue-400 border border-blue-500/20 font-medium">Enterprise Analytics v1.2</span>
         </h1>
-        <p class="text-xs text-slate-400">Gig Worker Net-Earnings & Payout Analytics Engine</p>
+        <p class="text-xs text-slate-400">Gig Worker Net-Earnings & Payout Intelligence Platform</p>
       </div>
     </div>
     
     <div class="flex items-center space-x-3 text-sm">
-      <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
-        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-        1,709 Shifts Ingested
+      <!-- Backend Connection Pill -->
+      <button onclick="openApiConfigModal()" id="apiStatusPill" class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 hover:bg-emerald-500/20 transition cursor-pointer" title="Click to configure backend API URL">
+        <span id="apiStatusDot" class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+        <span id="apiStatusText">Engine: Client-Ready</span>
+        <i data-lucide="settings" class="w-3 h-3 text-slate-400 ml-0.5"></i>
+      </button>
+
+      <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-blue-500/10 text-blue-400 border border-blue-500/20">
+        1,709 Shifts
       </span>
+
       <a href="https://github.com/THAKURSAHAB9910/GIGLEDGER" target="_blank" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 flex items-center gap-2 transition">
         <i data-lucide="github" class="w-4 h-4"></i> GitHub
       </a>
@@ -74,7 +81,7 @@
       <span>How much does a gig worker actually earn after considering time, out-of-pocket expenses, and algorithmic payout conditions?</span>
     </div>
     <div class="hidden md:flex items-center gap-4 text-slate-400">
-      <span>🛡️ Zero-Credentials Guarantee</span>
+      <span>🛡️ Zero-Credentials Enforced</span>
       <span>•</span>
       <span>Salted SHA-256 Hashing</span>
       <span>•</span>
@@ -179,9 +186,11 @@
     <!-- Navigation Tabs -->
     <div class="flex border-b border-brand-border space-x-6 text-sm overflow-x-auto pb-px">
       <button onclick="switchTab('overview')" id="tab-overview" class="pb-3 px-1 tab-active transition whitespace-nowrap">📊 Overview & Divergence</button>
+      <button onclick="switchTab('reconciliation')" id="tab-reconciliation" class="pb-3 px-1 text-slate-400 hover:text-slate-200 transition whitespace-nowrap">📑 Payout Reconciliation</button>
+      <button onclick="switchTab('profitability')" id="tab-profitability" class="pb-3 px-1 text-slate-400 hover:text-slate-200 transition whitespace-nowrap">💰 Shift Profitability</button>
       <button onclick="switchTab('trends')" id="tab-trends" class="pb-3 px-1 text-slate-400 hover:text-slate-200 transition whitespace-nowrap">📈 Earnings & Volatility</button>
       <button onclick="switchTab('expenses')" id="tab-expenses" class="pb-3 px-1 text-slate-400 hover:text-slate-200 transition whitespace-nowrap">⛽ Expense Intelligence</button>
-      <button onclick="switchTab('time')" id="tab-time" class="pb-3 px-1 text-slate-400 hover:text-slate-200 transition whitespace-nowrap">⏱️ Time & Waiting Drag</button>
+      <button onclick="switchTab('time')" id="tab-time" class="pb-3 px-1 text-slate-400 hover:text-slate-200 transition whitespace-nowrap">⏱️ Time & Waiting</button>
       <button onclick="switchTab('incentives')" id="tab-incentives" class="pb-3 px-1 text-slate-400 hover:text-slate-200 transition whitespace-nowrap">🎯 Incentive Cliffs</button>
       <button onclick="switchTab('cohorts')" id="tab-cohorts" class="pb-3 px-1 text-slate-400 hover:text-slate-200 transition whitespace-nowrap">👥 Cohorts & Benchmarks</button>
       <button onclick="switchTab('datamgmt')" id="tab-datamgmt" class="pb-3 px-1 text-slate-400 hover:text-slate-200 transition whitespace-nowrap">📥 Ingestion & Export</button>
@@ -238,7 +247,104 @@
     </div>
 
     <!-- ======================================================== -->
-    <!-- TAB 2: EARNINGS & VOLATILITY -->
+    <!-- TAB 2: PAYOUT RECONCILIATION AUDIT -->
+    <!-- ======================================================== -->
+    <div id="content-reconciliation" class="space-y-6 hidden">
+      <div class="glass-card rounded-xl p-5 border border-brand-border">
+        <div class="flex flex-wrap justify-between items-center gap-3 mb-4">
+          <div>
+            <h3 class="text-sm font-bold text-white flex items-center gap-2">
+              <i data-lucide="file-check" class="w-4 h-4 text-emerald-400"></i>
+              Platform Payout vs Bank Settlement Reconciliation Audit
+            </h3>
+            <p class="text-xs text-slate-400">Reconciling headline trip fares, variable incentives, platform deductions, and out-of-pocket costs against actual disposable income.</p>
+          </div>
+          <div class="flex items-center gap-3">
+            <label class="inline-flex items-center gap-2 text-xs text-slate-300 cursor-pointer">
+              <input type="checkbox" id="checkDiscrepanciesOnly" onchange="renderReconciliationTable()" class="rounded bg-slate-800 border-slate-700 text-blue-600 focus:ring-0">
+              <span>Show Discrepancies / Severe Drains Only</span>
+            </label>
+          </div>
+        </div>
+
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-xs text-slate-300">
+            <thead class="text-[11px] uppercase tracking-wider bg-slate-800/80 text-slate-400 border-b border-slate-700">
+              <tr>
+                <th class="py-2.5 px-3">Shift Date</th>
+                <th class="py-2.5 px-3">Worker Pseudonym</th>
+                <th class="py-2.5 px-3">City</th>
+                <th class="py-2.5 px-3">Advertised Gross</th>
+                <th class="py-2.5 px-3">Base Fare</th>
+                <th class="py-2.5 px-3">Incentives</th>
+                <th class="py-2.5 px-3">Deductions</th>
+                <th class="py-2.5 px-3">Operating Costs</th>
+                <th class="py-2.5 px-3">Net Take-Home</th>
+                <th class="py-2.5 px-3">Retention %</th>
+                <th class="py-2.5 px-3">Audit Status</th>
+              </tr>
+            </thead>
+            <tbody id="tableReconciliation" class="divide-y divide-slate-800">
+              <!-- Dynamically rendered -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ======================================================== -->
+    <!-- TAB 3: SHIFT PROFITABILITY & BREAK-EVEN -->
+    <!-- ======================================================== -->
+    <div id="content-profitability" class="space-y-6 hidden">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+        <div class="bg-slate-800/50 p-4 rounded-xl border border-slate-700">
+          <div class="text-[11px] text-slate-400 uppercase font-semibold">Break-Even Deliveries</div>
+          <div class="text-2xl font-bold text-white mt-1">6.8 orders</div>
+          <div class="text-[11px] text-slate-400 mt-0.5">Required deliveries just to cover shift fuel & wear</div>
+        </div>
+
+        <div class="bg-slate-800/50 p-4 rounded-xl border border-slate-700">
+          <div class="text-[11px] text-slate-400 uppercase font-semibold">High Margin Shifts (&ge;60%)</div>
+          <div class="text-2xl font-bold text-emerald-400 mt-1">302 shifts</div>
+          <div class="text-[11px] text-emerald-500 font-medium">17.7% of total shifts</div>
+        </div>
+
+        <div class="bg-slate-800/50 p-4 rounded-xl border border-slate-700">
+          <div class="text-[11px] text-slate-400 uppercase font-semibold">Moderate Margin (40-60%)</div>
+          <div class="text-2xl font-bold text-blue-400 mt-1">858 shifts</div>
+          <div class="text-[11px] text-blue-400 font-medium">50.2% of total shifts</div>
+        </div>
+
+        <div class="bg-slate-800/50 p-4 rounded-xl border border-slate-700">
+          <div class="text-[11px] text-slate-400 uppercase font-semibold">Loss-Making Shifts (&le;0%)</div>
+          <div class="text-2xl font-bold text-red-400 mt-1">32 shifts</div>
+          <div class="text-[11px] text-red-400 font-medium">Expenses exceeded gross pay</div>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <!-- Profitability Tier Donut -->
+        <div class="glass-card rounded-xl p-5 border border-brand-border">
+          <h3 class="text-sm font-bold text-white mb-1">Shift Profit Margin Tier Distribution</h3>
+          <p class="text-xs text-slate-400 mb-4">Breakdown of shifts by net retained income margin.</p>
+          <div class="h-64 flex items-center justify-center">
+            <canvas id="chartProfitTiers"></canvas>
+          </div>
+        </div>
+
+        <!-- Profitability by Modality -->
+        <div class="glass-card rounded-xl p-5 border border-brand-border">
+          <h3 class="text-sm font-bold text-white mb-1">Average Profit Margin % by Vehicle Modality</h3>
+          <p class="text-xs text-slate-400 mb-4">EV 2W couriers maintain an average 71.4% net margin vs 62.1% for petrol motorcycles.</p>
+          <div class="h-64">
+            <canvas id="chartModalityProfit"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ======================================================== -->
+    <!-- TAB 4: EARNINGS & VOLATILITY -->
     <!-- ======================================================== -->
     <div id="content-trends" class="space-y-6 hidden">
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -296,7 +402,7 @@
     </div>
 
     <!-- ======================================================== -->
-    <!-- TAB 3: EXPENSE INTELLIGENCE -->
+    <!-- TAB 5: EXPENSE INTELLIGENCE -->
     <!-- ======================================================== -->
     <div id="content-expenses" class="space-y-6 hidden">
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -350,7 +456,7 @@
     </div>
 
     <!-- ======================================================== -->
-    <!-- TAB 4: TIME & WAITING DRAG -->
+    <!-- TAB 6: TIME & WAITING DRAG -->
     <!-- ======================================================== -->
     <div id="content-time" class="space-y-6 hidden">
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -399,7 +505,7 @@
     </div>
 
     <!-- ======================================================== -->
-    <!-- TAB 5: INCENTIVE CLIFFS -->
+    <!-- TAB 7: INCENTIVE CLIFFS -->
     <!-- ======================================================== -->
     <div id="content-incentives" class="space-y-6 hidden">
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -453,7 +559,7 @@
     </div>
 
     <!-- ======================================================== -->
-    <!-- TAB 6: COHORTS & BENCHMARKS -->
+    <!-- TAB 8: COHORTS & BENCHMARKS -->
     <!-- ======================================================== -->
     <div id="content-cohorts" class="space-y-6 hidden">
       <!-- Commitment Tiers -->
@@ -536,7 +642,7 @@
     </div>
 
     <!-- ======================================================== -->
-    <!-- TAB 7: INGESTION & EXPORT -->
+    <!-- TAB 9: INGESTION & EXPORT -->
     <!-- ======================================================== -->
     <div id="content-datamgmt" class="space-y-6 hidden">
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -603,6 +709,36 @@
 
   </main>
 
+  <!-- API Configuration Modal -->
+  <div id="apiModal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
+    <div class="glass-card max-w-md w-full rounded-2xl p-6 border border-slate-700 shadow-2xl">
+      <div class="flex justify-between items-center mb-4">
+        <h3 class="text-sm font-bold text-white flex items-center gap-2">
+          <i data-lucide="server" class="w-4 h-4 text-blue-400"></i>
+          Backend API Connection Settings
+        </h3>
+        <button onclick="closeApiConfigModal()" class="text-slate-400 hover:text-white">&times;</button>
+      </div>
+
+      <p class="text-xs text-slate-400 mb-4">
+        GIGLEDGER's frontend operates independently on Vercel and connects to your decoupled backend API hosted on Render, Railway, or AWS.
+      </p>
+
+      <label class="block text-[11px] font-semibold text-slate-300 uppercase tracking-wider mb-1.5">Backend API URL</label>
+      <input type="text" id="apiEndpointInput" placeholder="https://gigledger-api.onrender.com" class="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:ring-1 focus:ring-blue-500 mb-3">
+
+      <div class="flex items-center gap-2 text-xs text-slate-400 mb-5">
+        <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+        <span>Automatic offline fallback to client-side engine enabled.</span>
+      </div>
+
+      <div class="flex justify-end gap-2">
+        <button onclick="closeApiConfigModal()" class="px-3 py-1.5 rounded-lg bg-slate-800 text-slate-300 text-xs border border-slate-700 hover:bg-slate-700">Cancel</button>
+        <button onclick="saveApiEndpoint()" class="px-4 py-1.5 rounded-lg bg-blue-600 hover:bg-blue-500 text-white text-xs font-semibold">Save & Test Connection</button>
+      </div>
+    </div>
+  </div>
+
   <!-- Footer -->
   <footer class="border-t border-brand-border bg-slate-900/60 py-4 px-6 text-center text-xs text-slate-500">
     <p>GIGLEDGER &copy; 2026. Built by Vishesh Tomar (THAKURSAHAB9910). Distributed under MIT License.</p>
@@ -615,21 +751,90 @@
     let allShifts = [];
     let filteredShifts = [];
     let charts = {};
+    let apiUrl = localStorage.getItem('GIGLEDGER_API_URL') || '';
 
     // Initialize Lucide Icons
     lucide.createIcons();
 
-    // Load initial JSON data
+    // Check API connection
+    async function checkApiHealth() {
+      if (!apiUrl) {
+        setApiStatus('standalone', 'Engine: Standalone (Offline-Ready)');
+        return;
+      }
+      try {
+        const res = await fetch(`${apiUrl}/api/health`, { method: 'GET', headers: { 'Accept': 'application/json' } });
+        if (res.ok) {
+          const data = await res.json();
+          setApiStatus('connected', `Live API: Connected (${data.total_shifts_in_db} shifts)`);
+        } else {
+          setApiStatus('standalone', 'API: Unreachable (Fallback Active)');
+        }
+      } catch (e) {
+        setApiStatus('standalone', 'API: Fallback Active');
+      }
+    }
+
+    function setApiStatus(mode, text) {
+      const pill = document.getElementById('apiStatusPill');
+      const dot = document.getElementById('apiStatusDot');
+      const label = document.getElementById('apiStatusText');
+      label.innerText = text;
+
+      if (mode === 'connected') {
+        pill.className = 'inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 hover:bg-emerald-500/20 transition cursor-pointer';
+        dot.className = 'w-2 h-2 rounded-full bg-emerald-400 animate-pulse';
+      } else {
+        pill.className = 'inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-amber-500/10 text-amber-400 border border-amber-500/20 hover:bg-amber-500/20 transition cursor-pointer';
+        dot.className = 'w-2 h-2 rounded-full bg-amber-400';
+      }
+    }
+
+    function openApiConfigModal() {
+      document.getElementById('apiEndpointInput').value = apiUrl;
+      document.getElementById('apiModal').classList.remove('hidden');
+    }
+
+    function closeApiConfigModal() {
+      document.getElementById('apiModal').classList.add('hidden');
+    }
+
+    function saveApiEndpoint() {
+      const val = document.getElementById('apiEndpointInput').value.trim();
+      apiUrl = val;
+      localStorage.setItem('GIGLEDGER_API_URL', apiUrl);
+      closeApiConfigModal();
+      checkApiHealth();
+      loadData();
+    }
+
+    // Load initial JSON data (API or fallback)
     async function loadData() {
       try {
-        const res = await fetch('data/sample/shifts_data.json');
-        if (res.ok) {
-          allShifts = await res.json();
-          filteredShifts = [...allShifts];
-          updateDashboard();
-        } else {
-          console.warn('Could not fetch shifts_data.json directly, falling back to mock generator.');
+        let loaded = false;
+        if (apiUrl) {
+          try {
+            const apiRes = await fetch(`${apiUrl}/api/shifts?limit=1709`);
+            if (apiRes.ok) {
+              const apiJson = await apiRes.json();
+              allShifts = apiJson.records;
+              filteredShifts = [...allShifts];
+              loaded = true;
+            }
+          } catch (e) {
+            console.warn('API fetch failed, falling back to local static JSON bundle.');
+          }
         }
+
+        if (!loaded) {
+          const res = await fetch('data/sample/shifts_data.json');
+          if (res.ok) {
+            allShifts = await res.json();
+            filteredShifts = [...allShifts];
+          }
+        }
+
+        updateDashboard();
 
         const benchRes = await fetch('data/sample/benchmark_data.json');
         if (benchRes.ok) {
@@ -643,7 +848,7 @@
 
     // Switch between tabs
     function switchTab(tabId) {
-      const tabs = ['overview', 'trends', 'expenses', 'time', 'incentives', 'cohorts', 'datamgmt'];
+      const tabs = ['overview', 'reconciliation', 'profitability', 'trends', 'expenses', 'time', 'incentives', 'cohorts', 'datamgmt'];
       tabs.forEach(t => {
         const btn = document.getElementById(`tab-${t}`);
         const content = document.getElementById(`content-${t}`);
@@ -655,7 +860,9 @@
           content.classList.add('hidden');
         }
       });
-      // Re-render charts for tab
+
+      if (tabId === 'reconciliation') renderReconciliationTable();
+      if (tabId === 'profitability') renderProfitabilityCharts();
       if (tabId === 'trends') renderTrendsCharts();
       if (tabId === 'expenses') renderExpensesCharts();
       if (tabId === 'time') renderTimeCharts();
@@ -712,6 +919,7 @@
 
       renderOverviewCharts();
       renderHighExpenseTable();
+      renderReconciliationTable();
     }
 
     // Render Overview Charts
@@ -725,7 +933,7 @@
         dailyMap[d].net += s.net_earnings;
       });
 
-      const dates = Object.keys(dailyMap).sort().slice(-30); // Last 30 days
+      const dates = Object.keys(dailyMap).sort().slice(-30);
       const grossVals = dates.map(d => dailyMap[d].gross);
       const netVals = dates.map(d => dailyMap[d].net);
 
@@ -748,7 +956,7 @@
               label: 'Net Take-Home',
               data: netVals,
               borderColor: '#10B981',
-              backgroundColor: 'rgba(239, 68, 68, 0.15)', // Expense shortfall area
+              backgroundColor: 'rgba(239, 68, 68, 0.15)',
               fill: '-1',
               borderWidth: 2,
               tension: 0.3
@@ -832,9 +1040,96 @@
       });
     }
 
+    // Render Payout Reconciliation Audit Table
+    function renderReconciliationTable() {
+      const tbody = document.getElementById('tableReconciliation');
+      if (!tbody) return;
+
+      const filterDiscrepancies = document.getElementById('checkDiscrepanciesOnly')?.checked || false;
+      let dataset = [...filteredShifts];
+
+      if (filterDiscrepancies) {
+        dataset = dataset.filter(s => (s.net_earnings / s.gross_earnings) < 0.50 || s.net_earnings <= 0);
+      }
+
+      tbody.innerHTML = dataset.slice(0, 25).map(s => {
+        const retention = s.gross_earnings > 0 ? (s.net_earnings / s.gross_earnings * 100) : 0;
+        let badge = '<span class="px-2 py-0.5 rounded text-[10px] font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">Reconciled</span>';
+        if (s.net_earnings <= 0) {
+          badge = '<span class="px-2 py-0.5 rounded text-[10px] font-semibold bg-red-500/20 text-red-400 border border-red-500/30">Loss-Making</span>';
+        } else if (retention < 50) {
+          badge = '<span class="px-2 py-0.5 rounded text-[10px] font-semibold bg-amber-500/10 text-amber-400 border border-amber-500/20">Heavy Drain (&gt;50%)</span>';
+        }
+
+        return `
+          <tr class="hover:bg-slate-800/40 transition">
+            <td class="py-2.5 px-3 font-mono text-slate-400">${s.shift_date}</td>
+            <td class="py-2.5 px-3 font-mono text-blue-400">${s.worker_pseudonym}</td>
+            <td class="py-2.5 px-3">${s.city}</td>
+            <td class="py-2.5 px-3 font-semibold text-white">₹${s.gross_earnings.toFixed(0)}</td>
+            <td class="py-2.5 px-3 text-slate-300">₹${s.base_payout.toFixed(0)}</td>
+            <td class="py-2.5 px-3 text-blue-400">₹${((s.incentive_pay || 0) + (s.bonus_pay || 0)).toFixed(0)}</td>
+            <td class="py-2.5 px-3 text-amber-400">₹${(s.deductions || 0).toFixed(0)}</td>
+            <td class="py-2.5 px-3 text-red-400">₹${s.total_expenses.toFixed(0)}</td>
+            <td class="py-2.5 px-3 font-bold ${s.net_earnings <= 0 ? 'text-red-500' : 'text-emerald-400'}">₹${s.net_earnings.toFixed(0)}</td>
+            <td class="py-2.5 px-3 font-mono">${retention.toFixed(1)}%</td>
+            <td class="py-2.5 px-3">${badge}</td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    // Render Shift Profitability Charts
+    function renderProfitabilityCharts() {
+      // 1. Profit Tiers Donut
+      if (charts.profitTiers) charts.profitTiers.destroy();
+      const ctxPT = document.getElementById('chartProfitTiers').getContext('2d');
+      charts.profitTiers = new Chart(ctxPT, {
+        type: 'doughnut',
+        data: {
+          labels: ['High Margin (>=60%)', 'Moderate Margin (40-60%)', 'Low Margin (<40%)', 'Loss-Making (<=0%)'],
+          datasets: [{
+            data: [302, 858, 517, 32],
+            backgroundColor: ['#10B981', '#3B82F6', '#F59E0B', '#EF4444'],
+            borderWidth: 0
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: { legend: { position: 'bottom', labels: { boxWidth: 10, color: '#94A3B8', font: { size: 10 } } } },
+          cutout: '60%'
+        }
+      });
+
+      // 2. Modality Profit Margin Bar
+      if (charts.modProfit) charts.modProfit.destroy();
+      const ctxMP = document.getElementById('chartModalityProfit').getContext('2d');
+      charts.modProfit = new Chart(ctxMP, {
+        type: 'bar',
+        data: {
+          labels: ['Electric 2W (EV)', 'Bicycle', 'Motorcycle (ICE)', 'Scooter (ICE)'],
+          datasets: [{
+            label: 'Average Net Margin %',
+            data: [71.4, 76.5, 62.1, 58.4],
+            backgroundColor: ['#10B981', '#F59E0B', '#3B82F6', '#8B5CF6'],
+            borderRadius: 4
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: { legend: { display: false } },
+          scales: {
+            x: { ticks: { color: '#94A3B8' }, grid: { color: '#1E293B' } },
+            y: { min: 40, max: 85, ticks: { color: '#64748B' }, grid: { color: '#1E293B' } }
+          }
+        }
+      });
+    }
+
     // Render Trends Charts
     function renderTrendsCharts() {
-      // Monthly Bar
       if (charts.monthly) charts.monthly.destroy();
       const ctxM = document.getElementById('chartMonthlyTrends').getContext('2d');
       charts.monthly = new Chart(ctxM, {
@@ -857,7 +1152,6 @@
         }
       });
 
-      // Net Per KM
       if (charts.perKm) charts.perKm.destroy();
       const ctxKm = document.getElementById('chartNetPerKm').getContext('2d');
       charts.perKm = new Chart(ctxKm, {
@@ -885,7 +1179,6 @@
 
     // Render Expenses Charts
     function renderExpensesCharts() {
-      // Cost per KM
       if (charts.costKm) charts.costKm.destroy();
       const ctxCkm = document.getElementById('chartCostPerKm').getContext('2d');
       charts.costKm = new Chart(ctxCkm, {
@@ -908,7 +1201,6 @@
         }
       });
 
-      // Expense Ratio Hist
       if (charts.expRatio) charts.expRatio.destroy();
       const ctxER = document.getElementById('chartExpenseRatioHist').getContext('2d');
       charts.expRatio = new Chart(ctxER, {
@@ -936,7 +1228,6 @@
 
     // Render Time Charts
     function renderTimeCharts() {
-      // Diminishing returns curve
       if (charts.dimReturns) charts.dimReturns.destroy();
       const ctxDR = document.getElementById('chartDiminishingReturns').getContext('2d');
       charts.dimReturns = new Chart(ctxDR, {
@@ -964,7 +1255,6 @@
         }
       });
 
-      // Waiting drag
       if (charts.waitDrag) charts.waitDrag.destroy();
       const ctxWD = document.getElementById('chartWaitingDrag').getContext('2d');
       charts.waitDrag = new Chart(ctxWD, {
@@ -990,7 +1280,6 @@
 
     // Render Incentives Charts
     function renderIncentivesCharts() {
-      // Counterfactual simulation
       if (charts.counter) charts.counter.destroy();
       const ctxCF = document.getElementById('chartCounterfactual').getContext('2d');
       charts.counter = new Chart(ctxCF, {
@@ -1015,7 +1304,6 @@
         }
       });
 
-      // Bunching histogram
       if (charts.bunching) charts.bunching.destroy();
       const ctxB = document.getElementById('chartBunchingHist').getContext('2d');
       charts.bunching = new Chart(ctxB, {
@@ -1142,7 +1430,6 @@
         }
 
         const headers = lines[0].split(',').map(h => h.trim().toLowerCase());
-        // Check for forbidden credential columns
         const forbidden = ['password', 'pin', 'otp', 'aadhaar', 'secret', 'bank'];
         const foundBad = headers.find(h => forbidden.some(f => h.includes(f)));
         if (foundBad) {
@@ -1158,7 +1445,10 @@
     }
 
     // Bootstrap
-    window.onload = loadData;
+    window.onload = () => {
+      checkApiHealth();
+      loadData();
+    };
   </script>
 </body>
 </html>

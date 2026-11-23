@@ -40,3 +40,6 @@ htmlcov/
 
 # Vercel
 .vercel
+
+# Backups
+backups/
