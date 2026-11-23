@@ -4,6 +4,16 @@ A comprehensive operational guide for launching, navigating, and utilizing the G
 
 ---
 
+## 🌐 Live Cloud Deployments
+
+You can explore the live deployed platform immediately without local installation:
+- **Live Interactive Dashboard (GitHub Pages)**: [https://thakursahab9910.github.io/GIGLEDGER/](https://thakursahab9910.github.io/GIGLEDGER/)
+- **Live Vercel Production Preview**: [https://nimble-prairie-nio6lh7.tmp.now](https://nimble-prairie-nio6lh7.tmp.now)
+  - [Claim to Vishesh's Vercel Account](https://vercel.com/claim-deployment?code=659f1028-053d-4c15-a4d2-7e05e05655b7)
+- **GitHub Repository**: [https://github.com/THAKURSAHAB9910/GIGLEDGER](https://github.com/THAKURSAHAB9910/GIGLEDGER)
+
+---
+
 ## 1. Quick Start & Setup
 
 ### 1.1 Prerequisites

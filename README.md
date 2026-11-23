@@ -4,10 +4,22 @@
 [![Python](https://img.shields.io/badge/Python-3.10%2B-blue.svg)](https://www.python.org/)
 [![Database](https://img.shields.io/badge/SQL-SQLite%20%7C%20PostgreSQL-emerald.svg)](https://www.sqlite.org/)
 [![Tests](https://img.shields.io/badge/Tests-41%20Passed%20(100%25)-brightgreen.svg)](https://pytest.org/)
+[![Live Dashboard](https://img.shields.io/badge/Live%20Dashboard-GitHub%20Pages-blue.svg)](https://thakursahab9910.github.io/GIGLEDGER/)
+[![Vercel Deployment](https://img.shields.io/badge/Vercel-Deployed-black.svg)](https://nimble-prairie-nio6lh7.tmp.now)
 [![Privacy](https://img.shields.io/badge/Privacy-Salted%20SHA--256%20%7C%20k%E2%89%A55-blueviolet.svg)](#privacy--consent-framework)
 [![License](https://img.shields.io/badge/License-MIT-lightgrey.svg)](LICENSE)
 
 An institutional-grade labor economics and financial intelligence platform that reveals the true difference between displayed platform payouts and actual net take-home earnings for gig delivery workers.
+
+---
+
+## 🌐 Live Deployments & Repository Links
+
+- 🔗 **Live Web Dashboard (GitHub Pages)**: [https://thakursahab9910.github.io/GIGLEDGER/](https://thakursahab9910.github.io/GIGLEDGER/)
+- ⚡ **Live Vercel Deployment**: [https://nimble-prairie-nio6lh7.tmp.now](https://nimble-prairie-nio6lh7.tmp.now)
+  - *Claim to Vishesh's Vercel Account*: [Claim Deployment Link](https://vercel.com/claim-deployment?code=659f1028-053d-4c15-a4d2-7e05e05655b7)
+- 🐙 **GitHub Repository**: [https://github.com/THAKURSAHAB9910/GIGLEDGER](https://github.com/THAKURSAHAB9910/GIGLEDGER)
+- 🚀 **1-Click Deploy on Vercel**: [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/THAKURSAHAB9910/GIGLEDGER)
 
 ---
 
